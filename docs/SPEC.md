@@ -52,7 +52,7 @@ Plataforma web **oficial** y **ecosistema único** del evento: organización, st
 **Ojo con Supabase Free:** los límites de volumen sobran (500 MB de BD, 50.000 usuarios activos/mes), pero **el proyecto se pausa tras 7 días sin actividad**. Entre fechas de campeonato (semanas sin uso) la app quedaría caída hasta reactivarla manualmente. Aceptable para la demo y las pruebas; **para el campeonato oficial usar Pro** (sin pausa, backups diarios). Mantener **un solo proyecto Supabase multi-tenant**: Pro cobra cómputo por proyecto.
 
 Dominio propio: ≈ US$10–15/año.
-| Escaneo códigos de barra | `BarcodeDetector` nativo, con fallback a `@zxing/browser` | Funciona en el navegador del celular; iOS Safari requiere el fallback |
+| Escaneo de etiquetas de neumático | Código de barras: `BarcodeDetector` nativo, con fallback a `@zxing/library`. Número impreso: OCR con `tesseract.js` servido desde la app (ADR 0008) | Funciona en el navegador del celular; iOS Safari requiere el fallback. El OCR se ofrece para confirmar, no se completa solo |
 | Routing | `HashRouter` (o `basename` + 404.html redirect) | GitHub Pages no soporta rutas de SPA nativamente |
 
 ### Restricciones de UI

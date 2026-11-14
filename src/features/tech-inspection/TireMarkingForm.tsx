@@ -70,6 +70,17 @@ export function TireMarkingForm({
       brandModelMismatch,
     ],
   )
+  // Seriales ya registrados del piloto: ayudan a corregir confusiones del OCR (T-L7).
+  const knownSerials = useQuery(
+    async (r) => {
+      const sets = await r.tires.listSetsForEntry(entry.championshipEntry.id)
+      const serials = await r.tires.serialsById(
+        sets.flatMap((s) => s.items.map((i) => i.equipmentId)),
+      )
+      return [...serials.values()]
+    },
+    [entry.championshipEntry.id],
+  )
   const exceptions = useQuery(
     async (r) =>
       (await r.exceptions.listForEvent(eventId)).filter((x) => x.eventEntryId === eventEntryId),
@@ -283,7 +294,11 @@ export function TireMarkingForm({
         title={scanning ? `Escanear ${es.tirePosition[scanning]} (${scanning})` : ''}
         onClose={() => setScanning(null)}
       >
-        <BarcodeScanner key={`${scanning}-${scanRound}`} onDetected={onScanned} />
+        <BarcodeScanner
+          key={`${scanning}-${scanRound}`}
+          onDetected={onScanned}
+          knownSerials={knownSerials.data ?? undefined}
+        />
         {scanNote && <p className="mt-2 font-bold text-stop">{scanNote}</p>}
       </Modal>
     </div>

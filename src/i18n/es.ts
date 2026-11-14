@@ -64,6 +64,21 @@ export const es = {
     RL: 'Trasero izq.',
     RR: 'Trasero der.',
   } satisfies Record<TirePosition, string>,
+  scanner: {
+    starting: 'Abriendo la cámara…',
+    aim: 'Pon la etiqueta dentro del recuadro: se lee el código de barras o el número impreso.',
+    denied:
+      'No hay permiso para usar la cámara. Actívalo en el navegador o ingresa el serial a mano.',
+    unavailable:
+      'Este navegador no puede usar la cámara aquí (requiere HTTPS). Ingresa el serial a mano.',
+    textLoading: 'Preparando la lectura del número impreso…',
+    textFailed:
+      'No se pudo preparar la lectura del número impreso; solo se lee el código de barras.',
+    textFound: 'Número leído en la etiqueta. Revisa que esté bien antes de usarlo:',
+    useCandidate: (serial: string) => `Usar ${serial}`,
+    torchOn: 'Encender linterna',
+    torchOff: 'Apagar linterna',
+  },
   tireVerdict: {
     ok: 'Marcación válida',
     warning: 'Revisar antes de guardar',

@@ -25,6 +25,18 @@ Fuente: SPEC §7.1 y §6.6 (`rules.tires`). Código: `src/domain/tires/`. Tests:
 - **T-V11** Dada una fecha que no cuenta para el ciclo, cuando se marcan 4 seriales, entonces OK sin reglas de ciclo, pero se mantienen los bloqueos por intercambio y repetidos.
 - **T-V12** Dado un neumático usado re-marcado en fecha de cambio, cuando se valida, entonces se trata igual que un juego nuevo (Reglamento 10.3).
 
+## Lectura con la cámara (código de barras o texto impreso)
+
+La cámara lee el **código de barras** de la etiqueta o, si no lo logra, el **texto impreso** del serial (OCR).
+
+- **T-L1** Dada una etiqueta con código de barras legible, cuando se apunta la cámara, entonces el serial se completa solo (sin confirmar), normalizado como en T-V10.
+- **T-L2** Dado un texto leído por OCR con varias palabras y líneas (p.ej. `MOJO D2\nMG-327-C4`), cuando se extraen los candidatos, entonces se proponen los que parecen serial: al menos 4 caracteres y al menos un dígito. Primero los que mezclan letras y números, en orden de lectura.
+- **T-L3** Dado un serial que el OCR separó con espacios (`MG 327 C4`), cuando se extraen los candidatos, entonces también se propone la línea unida (`MG327C4`, que es el mismo neumático según T-V10b). Solo se une si ninguna palabra parece serial por sí sola y todas son pedazos (con algún dígito o de menos de 4 caracteres): `MOJO D2` no se une.
+- **T-L4** Dado texto que solo tiene `I`, `L`, `1` o `|` (las barras del código leídas como letras), cuando se extraen los candidatos, entonces no se propone (es ruido).
+- **T-L5** Dado un serial leído por OCR, cuando aparece, entonces **no** se completa solo: el revisor confirma con "Usar …" (el OCR puede confundir O/0 o I/1). Solo se ofrece si se leyó igual en dos lecturas seguidas.
+- **T-L7** Dado un número leído por OCR que difiere de un serial ya registrado **del mismo piloto** solo en caracteres que el OCR confunde (`1/I/L`, `0/O/D/Q`, `5/S`, `8/B`, `2/Z`, `6/G`), cuando se propone, entonces se propone el serial registrado (`MG-312-AL` → `MG-312-A1`). Si se parece a más de uno, no se corrige. Igual requiere confirmación (T-L5).
+- **T-L6** Dado un navegador sin cámara o sin permiso, cuando se abre el escáner, entonces se indica que se ingrese el serial a mano.
+
 ## Juego vigente y re-marcado (repositorio; Fase 1: función de BD)
 
 - **T-J1** Dado un piloto cuyo único juego activo es de un ciclo **anterior** (faltó a la fecha de cambio), cuando marca en una continuación, entonces se trata como ingreso tardío, no como continuación de ese juego viejo.
