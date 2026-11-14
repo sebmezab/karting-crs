@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+@import '@fontsource/saira-condensed/600.css';
+@import '@fontsource/saira-condensed/800.css';
+
+/*
+ * Tokens de diseño. Uso al aire libre: alto contraste, señales siempre con ícono + texto.
+ * Asfalto (texto y barra), concreto (fondos), azul de boxes (acciones), semáforo (validación).
+ */
+@theme {
+  --font-sans: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --font-display: 'Saira Condensed', 'Arial Narrow', sans-serif;
+
+  --color-asphalt: #1e2b36;
+  --color-asphalt-soft: #3d4c59;
+  --color-concrete: #edf1f4;
+  --color-line: #c9d2da;
+  --color-pit: #1450a3;
+  --color-pit-dark: #0e3b7a;
+
+  --color-go: #0a7a3d;
+  --color-go-bg: #e3f4ea;
+  --color-caution: #ffc233;
+  --color-caution-bg: #fff4d6;
+  --color-stop: #c01b1b;
+  --color-stop-bg: #fbe5e5;
+  --color-info-bg: #e5eefa;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-concrete text-asphalt font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-pit);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@keyframes verdict-in {
+  from {
+    transform: scale(0.97);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@utility animate-verdict {
+  animation: verdict-in 180ms ease-out;
+}
